@@ -24,6 +24,7 @@ async function listContacts() {
   const contacts = await readContacts();
   return contacts;
 }
+
 async function getContactById(contactId) {
   const contacts = await readContacts();
   const contact = contacts.find((contact) => contact.id === contactId);
@@ -36,9 +37,9 @@ async function removeContact(contactId) {
   if (index === -1) {
     return null;
   }
-  const [result] = contacts.slice(index, 1);
-  await writeContacts(contacts);
-  return result;
+  const newContacts = [...contacts.slice(0, index), ...contacts.slice(index + 1)];
+  await writeContacts(newContacts);
+  return contacts[index];
 }
 
 async function addContact(name, email, phone) {
